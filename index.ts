@@ -4,14 +4,10 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 const app = express();
-
-// JSON parsing
 app.use(bodyParser.json());
-
-// CORS setup
 app.use(
   cors({
-    origin: "https://import-key.vercel.app", // ✅ Match your frontend domain
+    origin: "https://import-key.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
@@ -24,10 +20,6 @@ app.use(
   })
 );
 
-// ✅ Handle preflight OPTIONS requests
-app.options("*", cors());
-
-// Proxy setup
 const proxyOptions = {
   target: "http://44.212.3.139:8000",
   changeOrigin: true,
@@ -43,12 +35,10 @@ const proxyOptions = {
       proxyReq.write(bodyData);
     }
   },
-} as unknown as Parameters<typeof createProxyMiddleware>[0];
+} as unknown as Parameters<typeof createProxyMiddleware>[0]; // 👈 KEY FIX
 
 app.use("/api", createProxyMiddleware(proxyOptions));
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Proxy server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log("Proxy server running on port 3000");
 });
