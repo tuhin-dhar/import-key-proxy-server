@@ -1,9 +1,24 @@
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
 app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: "https://import-key.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Origin",
+      "Host",
+      "x-forwarded-host",
+      "public-code",
+      "public-short-code",
+    ],
+  })
+);
 
 const proxyOptions = {
   target: "http://44.212.3.139:8000",
