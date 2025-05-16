@@ -27,6 +27,9 @@ const proxyOptions = {
   onProxyReq: (proxyReq: any, req: any, res: any) => {
     proxyReq.setHeader("Origin", "https://importkey.com");
     proxyReq.setHeader("Host", "api.importkey.com");
+    proxyReq.setHeader("X-Forwarded-For", "api.importkey.com");
+    proxyReq.setHeader("public-code", "public-code");
+    proxyReq.setHeader("public-short-code", "public-short-code");
 
     if (req.body && typeof req.body === "object") {
       const bodyData = JSON.stringify(req.body);
